@@ -65,10 +65,12 @@ body{
    display: flex;
 }
 .reset-game,.reset-board{
-   background-color: aliceblue;
+   background-color: black;
+   color: aliceblue;
    margin-left: 5px;
    width: 110px;
    border-radius: 10px;
+   border: solid black 1px;
    cursor: pointer;
 }
 .reset-game:hover,.reset-board:hover{
