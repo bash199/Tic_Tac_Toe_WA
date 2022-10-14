@@ -3,7 +3,7 @@ const board = document.querySelector('.board-container');
 const player = document.querySelector('.player-turn');
 const resetBtn = document.querySelector('.reset');
 const title = document.querySelector('.game-title');
-let currentPlayer = 'O'
+let currentPlayer = 'O';
 let gameStatus = true;
 
 function fillSquareContent(event){
@@ -111,10 +111,11 @@ function checkWinner(){
    
 };
 function resetingGame(){
-   for (let i of squares ){i.innerHTML=''};
+   for (let i of squares ){
+      i.innerHTML='';
+   }
    gameStatus = true;
-   winner.textContent='';
-   title.textContent='Tec Tac Toe';
+   title.textContent = 'Tec Tac Toe';
 };
 
 board.addEventListener('click',fillSquareContent);
