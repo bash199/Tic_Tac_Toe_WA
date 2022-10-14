@@ -1,0 +1,71 @@
+@font-face {
+   font-family: 'Raleway';
+   font-style: normal;
+   font-weight: 600;
+   src: url(/css/aaa.woff2) format('woff2');
+   /* unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; */
+ }
+*{
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body{
+   background-color: black;
+   font-family: 'Raleway';
+   /* font-family: 'Open Sans', sans-serif; */
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+.game-title{
+   font-size: 60px;
+   color: white;
+}
+.player-turn,.winner-declare{
+   color: white;
+   margin: 10px 0 10px 0 ;
+}
+
+.board-container{
+   width: 450px;
+   height: 450px;
+   /* width: 380px;
+   height: 380px; */
+   display: grid;
+   grid-template-columns:repeat(3,1fr);
+   grid-template-rows: repeat(3,1fr);
+   margin: 15px 0 15px 0;
+   
+}
+.square{
+   padding: 20px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   color: aliceblue;
+   
+}
+.square.top{
+   border-bottom: solid white 5px;
+}
+.square.middle{
+   border-bottom: solid white 5px;
+}
+.square.right{
+   border-left: solid white 5px;
+}
+.square.left{
+   border-right: solid white 5px;
+}
+.reset{
+   background-color: aliceblue;
+   width: 110px;
+   border-radius: 10px;
+   cursor: pointer;
+}
+.reset:hover{
+   opacity: 0.8;
+}
