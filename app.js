@@ -1,5 +1,4 @@
 const squares = document.querySelectorAll('.square');
-const board = document.querySelector('.board-container');
 const player = document.querySelector('.player-turn');
 const resetGame = document.querySelector('.reset-game');
 const resetBoard = document.querySelector('.reset-board');
@@ -7,156 +6,98 @@ const title = document.querySelector('.game-title');
 const playerXScore = document.querySelector('.player-x-score');
 const playerOScore = document.querySelector('.player-o-score');
 const tieScore = document.querySelector('.tie-score');
-let currentPlayer = 'O';
-let gameStatus = true;
-let docWidth = document.body.clientWidth;
-function fillSquareContent(event){
-   if(docWidth <=300){
-      event.target.style.fontSize='30px'
+
+const winningOptions = [
+   [0,1,2],
+   [3,4,5],
+   [6,7,8],
+   [0,3,6],
+   [1,4,7],
+   [2,5,8],
+   [0,4,8],
+   [2,4,6],
+];
+
+let playerOO = 'O';
+let playerXX = 'X';
+let currentPlayer1 = playerXX;
+let gameStatus1 = false;
+let options = ["", "", "", "", "", "", "", "", ""];
+
+startGame1();
+function startGame1(){
+   squares.forEach(square=>square.addEventListener('click',squareClicked1));
+   resetGame.addEventListener('click',resetGame1);
+   resetBoard.addEventListener('click',resetBoard1);
+   player.textContent=`Player ${currentPlayer1}'s turn`
+   gameStatus1 = true;
+}
+function squareClicked1(){
+   let squareIndex = this.getAttribute('id');
+   if(options[squareIndex] !== "" || !gameStatus1){
+      return;
    }
-   else if(docWidth > 300&&docWidth <=500){
-      event.target.style.fontSize='50px'
+   updateSquare1(this, squareIndex);
+   checkWinner1();
+}
+function updateSquare1(square,index){
+   options[index] = currentPlayer1;
+   square.textContent = currentPlayer1;
+}
+function checkWinner1(){
+   let win = false;
+   for(let i=0; i<winningOptions.length;i++){
+      let condition = winningOptions[i];
+      let [a,b,c]= condition;
+      if((options[a] == "") || (options[b] == "") || (options[c] == "") ){
+          continue;
+      }
+      if((options[a]==options[b]) && (options[b]==options[c])){
+         win = true;
+          break;
+      }
+   }
+   if(win){
+      title.textContent = `Player (${currentPlayer1}) WON!`;
+      currentPlayer1 == playerXX ? playerXScore.textContent++ : playerOScore.textContent++;
+      gameStatus1 = false;
+   }
+   else if(!options.includes("")){
+      title.textContent = `Its a Tie!`;
+      tieScore.textContent++;
+      gameStatus1 = false;
    }
    else{
-      event.target.style.fontSize='80px'
+      changeTurn1()
    }
-   event.target.style.fontFamily="'Montserrat', sans-serif"
-   if(currentPlayer == 'O' &&gameStatus&& !event.target.textContent){
-      gameStatus = true;
-      player.textContent = "Player O's turn"
-      currentPlayer = 'X'
-      event.target.textContent = currentPlayer
-   }
-   else if(currentPlayer == 'X'&&gameStatus&& !event.target.textContent){
-      player.textContent = "Player X's turn"
-      gameStatus = true;
-      currentPlayer = 'O'
-      event.target.textContent = currentPlayer
-   }
-   checkWinner();
-};
-function checkWinner(){
-   if(gameStatus){
-   //1 row
-   if(squares[0].textContent=='X'&&squares[1].textContent=='X'&&squares[2].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-   //2 row
-   else if(squares[3].textContent=='X'&&squares[4].textContent=='X'&&squares[5].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-   //3 row
-   else if(squares[6].textContent=='X'&&squares[7].textContent=='X'&&squares[8].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-   // 1 colomn
-   else if(squares[0].textContent=='X'&&squares[3].textContent=='X'&&squares[6].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-    // 2 colomn
-   else if(squares[1].textContent=='X'&&squares[4].textContent=='X'&&squares[7].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-    // 3 colomn
-   else if(squares[2].textContent=='X'&&squares[5].textContent=='X'&&squares[8].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-   // form 0 to 4 to 8 
-   else if(squares[0].textContent=='X'&&squares[4].textContent=='X'&&squares[8].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-   // form 6 to 4 to 2 
-   else if(squares[6].textContent=='X'&& squares[4].textContent=='X'&& squares[2].textContent=='X'){
-      gameStatus = false;
-      title.textContent='Player (X) WON!'
-      playerXScore.innerText++
-   }
-   //1 row
-   else if(squares[0].textContent=='O'&&squares[1].textContent=='O'&&squares[2].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-   //2 row
-   else if(squares[3].textContent=='O'&&squares[4].textContent=='O'&&squares[5].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-   //3 row
-   else if(squares[6].textContent=='O'&&squares[7].textContent=='O'&&squares[8].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-   // 1 colomn
-   else if(squares[0].textContent=='O'&&squares[3].textContent=='O'&&squares[6].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-    // 2 colomn
-   else if(squares[1].textContent=='O'&&squares[4].textContent=='O'&&squares[7].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-    // 3 colomn
-   else if(squares[2].textContent=='O'&&squares[5].textContent=='O'&&squares[8].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-   // diagonally 
-   else if(squares[0].textContent=='O'&&squares[4].textContent=='O'&&squares[8].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-   // diagonally
-   else if(squares[6].textContent=='O'&& squares[4].textContent=='O'&& squares[2].textContent=='O'){
-      gameStatus = false;
-      title.textContent='Player (O) WON!'
-      playerOScore.innerText++;
-   }
-    else if(squares[0].textContent!==''&& squares[1].textContent!==''&&squares[2].textContent!==''&&squares[3].textContent!==''&&squares[4].textContent!==''&&squares[5].textContent!==''&&squares[6].textContent!==''&&squares[7].textContent!==''&&squares[8].textContent!==''){
-      gameStatus = false;
-      title.textContent="It's A Tie!"
-      tieScore.innerText++;
-    }
-   }
-};
-function resetingBoard(){
-   for (let i of squares ){
-      i.innerHTML='';
-   }
-   gameStatus = true;
+}
+function changeTurn1(){
+   currentPlayer1 = ((currentPlayer1 == playerXX) ? playerOO : playerXX);
+   player.textContent=`Player ${currentPlayer1}'s turn`
+}
+function resetGame1(){
+   currentPlayer1 = playerXX;
+   player.textContent=`Player ${currentPlayer1}'s turn`
    title.textContent = 'Tec Tac Toe';
-};
-function resetingGame(){
-   for (let i of squares ){
-      i.innerHTML='';
-   }
-   gameStatus = true;
+   options = ["", "", "", "", "", "", "", "", ""];
+   squares.forEach(square=>{ square.textContent = ""})
+   playerXScore.textContent = 0;
+   playerOScore.textContent = 0;
+   tieScore.textContent = 0;
+   gameStatus1 = true;
+}
+
+function resetBoard1(){
    title.textContent = 'Tec Tac Toe';
-   tieScore.innerText=0;
-   playerOScore.innerText=0;
-   playerXScore.innerText=0;
-};
-board.addEventListener('click',fillSquareContent);
-resetBoard.addEventListener('click',resetingBoard);
-resetGame.addEventListener('click',resetingGame);
+   options = ["", "", "", "", "", "", "", "", ""];
+   squares.forEach(square=>{ square.textContent = ""});
+   if(title.textContent == `Player (${currentPlayer1}) WON!`){
+      currentPlayer1 = currentPlayer1;
+   }
+   gameStatus1 = true;
+}
+
+
+
+
+
