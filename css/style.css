@@ -3,7 +3,6 @@
    font-style: normal;
    font-weight: 600;
    src: url(/css/aaa.woff2) format('woff2');
-   /* unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116; */
  }
 *{
    margin: 0;
@@ -14,7 +13,6 @@
 body{
    background-color: black;
    font-family: 'Raleway';
-   /* font-family: 'Open Sans', sans-serif; */
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -27,14 +25,11 @@ body{
 }
 .player-turn{
    color: white;
-   /* margin: 10px 0 10px 0 ; */
 }
 
 .board-container{
    width: 450px;
    height: 450px;
-   /* width: 380px;
-   height: 380px; */
    display: grid;
    grid-template-columns:repeat(3,1fr);
    grid-template-rows: repeat(3,1fr);
@@ -114,7 +109,7 @@ body{
       font-size: 32px;
    }
    .game-title{
-      font-size: 40px;
+      font-size: 2rem;
    }
    .square{
       font-size: 2rem;
@@ -127,7 +122,7 @@ body{
       height: 350px; 
    }
    .game-title{
-      font-size: 40px;
+      font-size: 2.2rem;
    }
    .square{
       font-size: 3rem;

@@ -1,12 +1,13 @@
+//* the selected buttons and elemnts using the doument and the querySelector method.
 const squares = document.querySelectorAll('.square');
 const player = document.querySelector('.player-turn');
-const resetGame = document.querySelector('.reset-game');
-const resetBoard = document.querySelector('.reset-board');
+const resetGameBtn = document.querySelector('.reset-game');
+const resetBoardBtn = document.querySelector('.reset-board');
 const title = document.querySelector('.game-title');
 const playerXScore = document.querySelector('.player-x-score');
 const playerOScore = document.querySelector('.player-o-score');
 const tieScore = document.querySelector('.tie-score');
-
+//* the winning options with the specefic indexes that will be checked with the check winner ("checkWinner1") functions.
 const winningOptions = [
    [0,1,2],
    [3,4,5],
@@ -18,33 +19,37 @@ const winningOptions = [
    [2,4,6],
 ];
 
-let playerOO = 'O';
-let playerXX = 'X';
-let currentPlayer1 = playerXX;
+let playerO = 'O';
+let playerX = 'X';
+let currentPlayer1 = playerX;
 let gameStatus1 = false;
 let options = ["", "", "", "", "", "", "", "", ""];
 
-startGame1();
-function startGame1(){
-   squares.forEach(square=>square.addEventListener('click',squareClicked1));
-   resetGame.addEventListener('click',resetGame1);
-   resetBoard.addEventListener('click',resetBoard1);
+startGame();
+//* .A function that start the game by events for the clicks that can be clicked, such as reset buttons and squares.
+function startGame(){
+   squares.forEach(square=>square.addEventListener('click',squareClicked));
+   resetGameBtn.addEventListener('click',resetGamefunc);
+   resetBoardBtn.addEventListener('click',resetBoardFunc);
    player.textContent=`Player ${currentPlayer1}'s turn`
    gameStatus1 = true;
 }
-function squareClicked1(){
+//* A function that gets the 'callIndex' of each clicked square and  passes it to another function, this function stops a square from updating  it self  if it is  all ready updated(with 'X' or with 'O'). 
+function squareClicked(){
    let squareIndex = this.getAttribute('id');
    if(options[squareIndex] !== "" || !gameStatus1){
       return;
    }
-   updateSquare1(this, squareIndex);
-   checkWinner1();
+   updateSquare(this, squareIndex);
+   checkWinner();
 }
-function updateSquare1(square,index){
+//* A function that updates the clicked square(passed form the 'squareClicked1' function ) and updates another array with the same value and index that helps checking the winner .
+function updateSquare(square,index){
    options[index] = currentPlayer1;
    square.textContent = currentPlayer1;
 }
-function checkWinner1(){
+//* A function that checks whom is the winner by checking the clicked and updated  squares with a specific and givien indexes that is a winnig options, when a winner found the function stops and it tells whom is it and stops the iser from inserting another values in unupdated squares, if there are no winner it tells that it is a draw , otherwise it changes player turn...
+function checkWinner(){
    let win = false;
    for(let i=0; i<winningOptions.length;i++){
       let condition = winningOptions[i];
@@ -59,7 +64,7 @@ function checkWinner1(){
    }
    if(win){
       title.textContent = `Player (${currentPlayer1}) WON!`;
-      currentPlayer1 == playerXX ? playerXScore.textContent++ : playerOScore.textContent++;
+      currentPlayer1 == playerX ? playerXScore.textContent++ : playerOScore.textContent++;
       gameStatus1 = false;
    }
    else if(!options.includes("")){
@@ -68,15 +73,17 @@ function checkWinner1(){
       gameStatus1 = false;
    }
    else{
-      changeTurn1()
+      changeTurn()
    }
 }
-function changeTurn1(){
-   currentPlayer1 = ((currentPlayer1 == playerXX) ? playerOO : playerXX);
+//* A function that changes the values being updated in each clicked square and changes the updated value with each click, it has two values -> 'X' or 'O'.
+function changeTurn(){
+   currentPlayer1 = ((currentPlayer1 == playerX) ? playerO : playerX);
    player.textContent=`Player ${currentPlayer1}'s turn`
 }
-function resetGame1(){
-   currentPlayer1 = playerXX;
+//* A function that reset the board and the scores of the two players and the tie score , also it resets the array (optins)  to "" (empty strings) that helps checking the winner (more formated information in the "updateSquare1" function) and also resets the squares to empty string ("") and reset the X player to start, and last it resets the gameStatus to true for the game to be possible to start again...
+function resetGamefunc(){
+   currentPlayer1 = playerX;
    player.textContent=`Player ${currentPlayer1}'s turn`
    title.textContent = 'Tec Tac Toe';
    options = ["", "", "", "", "", "", "", "", ""];
@@ -86,8 +93,8 @@ function resetGame1(){
    tieScore.textContent = 0;
    gameStatus1 = true;
 }
-
-function resetBoard1(){
+//* like the reset Game function but this function does not rest the player and the scores but it gives the first run to winner in the last match. 
+function resetBoardFunc(){
    title.textContent = 'Tec Tac Toe';
    options = ["", "", "", "", "", "", "", "", ""];
    squares.forEach(square=>{ square.textContent = ""});
